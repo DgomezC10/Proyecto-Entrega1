@@ -1,22 +1,22 @@
+import java.util.*;
 public class Vehiculo{
-    public static Vehiculo[] vehiculos = new Vehiculo[10];
-    public static int tamano = 10;
-    public static int posAnadir = 0;
+    public static ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+    public static int idActual = 1;
+    private  int id = 0;
     private int modelo;
+    private ArrayList<Sensor> sensores = new ArrayList<Sensor>();
     private String marca;
     private double ValorComercial;
     private String color;
 
-    /*public Vehiculo(){
-    this(0);
-    }*/
+    public Vehiculo(){
+        this.id = Vehiculo.idActual;  
+        vehiculos.add(this);
+        idActual++;
+    }
 
     public Vehiculo(int mo, String ma, double va){
-        this.modelo = mo;
-        this.marca = ma;
-        this.ValorComercial = va;
-        Vehiculo.vehiculos[posAnadir]=this;
-        Vehiculo.posAnadir++;
+        this(mo, ma, va, "verde");         
     }
 
     public Vehiculo(int mo, String ma, double va, String co){
@@ -24,8 +24,9 @@ public class Vehiculo{
         this.marca = ma;
         this.ValorComercial = va;
         this.color = co;
-
-        Vehiculo.posAnadir++;
+        this.id = Vehiculo.idActual;
+        vehiculos.add(this);
+        idActual++;
     }
 
     public String getMarca(){
@@ -60,30 +61,77 @@ public class Vehiculo{
         this.color = co;
     }
 
+    public int getId(){
+        return this.id;
+    }
+
     public String toString(){
-        return "(" +this.marca+", "+this.modelo+", "+this.ValorComercial+", "+this.color+")";
+        String s1 = "("+ this. id + "," + this.marca+", "+this.modelo+", "+this.ValorComercial+", "+this.color+")";
+        ArrayList<Sensor> temp = this.sensores;
+        for(Sensor s: temp){
+            s1 = s1 + s.toString();
+        }
+        return s1;
     }
 
     public static String toStringVehiculos(){
         String temp= "";
-        for(int i = 0; i < Vehiculo.posAnadir; i++){
-            temp = temp + "(" +vehiculos[i].getMarca()+", "+vehiculos[i].getModelo()+", "+vehiculos[i].getValorComercial()+", "+vehiculos[i].getColor()+")";
+        for(Vehiculo v: Vehiculo.vehiculos){
+            temp = temp + v.toString();
         }
         return temp;                                                                                     
     }
 
+    public void setSensores(ArrayList<Sensor> a){
+        this.sensores = a;
+    }
+
+    public ArrayList<Sensor> getSensores(){
+        return this.sensores;
+    }
+
     public static int cantidadVehiculos(){
-        int cant = posAnadir;
+        int cant = (Vehiculo.vehiculos).size();
         return cant;
     }
 
-    public static void ColorVerde (){
-        
-        for(int i = 0; i < Vehiculo.posAnadir; i++){
-            String color = Vehiculo.vehiculos[i].getColor();
+    public int cantidadSensores(){
+        int cant2 = (this.sensores).size();
+        return cant2;
+    }
+
+    public void anadirSensor(Sensor s){
+        (this.sensores).add(s);
+    }
+
+    public static String colorVerde (){
+        String temp= "";
+        for(Vehiculo v: Vehiculo.vehiculos){
+            String color = v.getColor();
             if(color.equalsIgnoreCase("verde")){
-                System.out.println(Vehiculo.vehiculos[i].toString());
+                temp = temp +"(" +v.getMarca()+", "+v.getModelo()+", "+v.getValorComercial()+", "+v.getColor()+")"; 
             }
         }
+        return temp;
+    }
+
+    public static String mostrarId(int g){
+        String temp="";
+        for(Vehiculo v: Vehiculo.vehiculos){
+            if(g == v.getId()){
+                temp = temp +"("+v.getId()+", " +v.getMarca()+", "+v.getModelo()+", "+v.getValorComercial()+", "+v.getColor()+")"; 
+            }
+        }
+        return temp;
+    }
+
+    public static Vehiculo obtenerVehiculoPorId(int id){
+        int temp = 0;
+        for(int i = 0; i < vehiculos.size(); i++){
+            if(id == ((Vehiculo.vehiculos).get(i)).getId()){
+                temp = i;
+            }
+        }
+        return (Vehiculo.vehiculos).get(temp);
     }
 }

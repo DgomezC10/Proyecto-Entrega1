@@ -1,0 +1,6 @@
+2020,chevrolet,12000,rojo
+2021,ford,12300,verde
+2018,nissan,1200,negro
+2019,hyundai,123333,blanco
+2020,ferrari,1200,rojo
+2021,renaul,1000,verde
